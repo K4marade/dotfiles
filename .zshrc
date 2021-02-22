@@ -107,8 +107,13 @@ if type brew &>/dev/null; then
   compinit
 fi
 
-export PATH="/opt/homebrew/bin/python3.9/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
+###PYENV###
 if command -v pyenv 1>/dev/null 2>&1; then
   eval "$(pyenv init -)"
 fi
+
+###PATHS###
+
+export PATH="/opt/homebrew/bin/python3.9/bin:$PATH"
+export PATH="/opt/homebrew/bin:$PATH"
+export PATH=$PATH:~/bin/chromedriver
