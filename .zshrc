@@ -68,7 +68,7 @@ ZSH_THEME="ys"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-z fzf)
+plugins=(git zsh-z fzf yarn-completion)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,7 +98,10 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias myip="curl http://ipecho.net/plain; echo"
-alias zsh="open ~/.zshrc"
+alias zsh="vim ~/.zshrc"
+alias ibrew="arch -x86_64 /usr/local/bin/brew"
+alias secretkey="python3 /Users/leonardcolin/code/secretkey.py"
+alias _arch="arch -x86_64"
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
@@ -107,13 +110,57 @@ if type brew &>/dev/null; then
   compinit
 fi
 
-###PYENV###
-if command -v pyenv 1>/dev/null 2>&1; then
-  eval "$(pyenv init -)"
-fi
 
 ###PATHS###
+export PATH="/Users/leonardcolin/bin:$PATH"
+export PATH="/usr/local/sbin:$PATH"
+# export PATH="/opt/homebrew/bin:$PATH"
 
-export PATH="/opt/homebrew/bin/python3.9/bin:$PATH"
-export PATH="/opt/homebrew/bin:$PATH"
-export PATH=$PATH:~/bin/chromedriver
+
+# added by travis gem
+[ ! -s /Users/leonardcolin/.travis/travis.sh ] || source /Users/leonardcolin/.travis/travis.sh
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/leonardcolin/miniforge3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/leonardcolin/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/Users/leonardcolin/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/leonardcolin/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+###ASDF###
+. $HOME/.asdf/asdf.sh
+# append completions to fpath
+fpath=(${ASDF_DIR}/completions $fpath)
+# initialise completions with ZSH's compinit
+autoload -Uz compinit
+compinit
+
+
+###PYENV###
+export PATH="$HOME/.pyenv/bin:$PATH"
+export PATH="/usr/local/bin:$PATH"
+
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+export LDFLAGS="-L/usr/local/opt/zlib/lib -L/usr/local/opt/bzip2/lib"
+export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
+
+# pip zsh completion start
+function _pip_completion {
+  local words cword
+  read -Ac words
+  read -cn cword
+  reply=( $( COMP_WORDS="$words[*]" \
+             COMP_CWORD=$(( cword-1 )) \
+             PIP_AUTO_COMPLETE=1 $words[1] 2>/dev/null ))
+}
+compctl -K _pip_completion pip3
+# pip zsh completion end
