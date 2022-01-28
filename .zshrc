@@ -68,7 +68,7 @@ ZSH_THEME="ys"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-z fzf yarn-completion)
+plugins=(git zsh-z fzf yarn-completion python command-not-found pip pipenv zsh-syntax-highlighting) # Keep zsh-syntax-highlighting in last position
 
 source $ZSH/oh-my-zsh.sh
 
@@ -164,3 +164,9 @@ function _pip_completion {
 }
 compctl -K _pip_completion pip3
 # pip zsh completion end
+
+###Command not found plugin###
+HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-found/handler.sh"
+if [ -f "$HB_CNF_HANDLER" ]; then
+source "$HB_CNF_HANDLER";
+fi
