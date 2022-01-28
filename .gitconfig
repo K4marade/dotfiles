@@ -3,3 +3,5 @@
 	email = leooo.colin@gmail.com
 [init]
 	defaultBranch = master
+[core]
+	excludesfile = /Users/leonardcolin/.gitignore_global
