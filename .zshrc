@@ -102,6 +102,8 @@ alias zsh="vim ~/.zshrc"
 alias ibrew="arch -x86_64 /usr/local/bin/brew"
 alias secretkey="python3 /Users/leonardcolin/code/secretkey.py"
 alias _arch="arch -x86_64"
+alias hidden_true="defaults write com.apple.Finder AppleShowAllFiles true && killall Finder"
+alias hiden_false="defaults write com.apple.Finder AppleShowAllFiles false && killall Finder"
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
