@@ -45,7 +45,7 @@ ZSH_THEME="ys"
 # ENABLE_CORRECTION="true"
 
 # Uncomment the following line to display red dots whilst waiting for completion.
-# COMPLETION_WAITING_DOTS="true"
+COMPLETION_WAITING_DOTS="true"
 
 # Uncomment the following line if you want to disable marking untracked files
 # under VCS as dirty. This makes repository status check for large repositories
@@ -94,16 +94,18 @@ source $ZSH/oh-my-zsh.sh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
 # For a full list of active aliases, run `alias`.
 #
+unsetopt complete_aliases
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias myip="curl http://ipecho.net/plain; echo"
 alias zsh="vim ~/.zshrc"
-alias ibrew="arch -x86_64 /usr/local/bin/brew"
+# alias ibrew="arch -x86_64 /usr/local/bin/brew"
 alias secretkey="python3 /Users/leonardcolin/code/secretkey.py"
 alias _arch="arch -x86_64"
 alias hidden_true="defaults write com.apple.Finder AppleShowAllFiles true && killall Finder"
 alias hiden_false="defaults write com.apple.Finder AppleShowAllFiles false && killall Finder"
+alias pip_update="pip3 list --outdated --format=freeze | grep -v '^\-e' | cut -d = -f 1  | xargs -n1 pip3 install -U"
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
